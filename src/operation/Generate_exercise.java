@@ -9,11 +9,18 @@ public class Generate_exercise {
         int[] number=new int[4];//储存数字数组
         char[] operator=new char[3];//储存操作符数组
         int operator_num=0;//该题目中含有的操作符数
-        String exercise;//题目字符串
+        int left_par=0;//左括号数
+        int right_par=0;//右括号数
+        StringBuilder exercise=new StringBuilder();//构造题目字符串
         while(operator_num==0)
         {
             operator_num=random.nextInt(3);//随机生成一个操作符数
         }
+        while(left_par==0)
+        {
+            left_par=random.nextInt(operator_num);
+        }
+        right_par=left_par;
 
         int i;
         for (i = 0; i < operator_num; i++) {//随机生成操作符，与数字
@@ -41,13 +48,37 @@ public class Generate_exercise {
         }
         number[i]=e;
 
-        exercise=String.valueOf(number[0]);
-        for(int j = 0 ; j < operator.length ; j++){
-            exercise=exercise+' ';
-            exercise=exercise+operator[j];
-            exercise=exercise+' ';
-            exercise=exercise+String.valueOf(number[j+1]);
+        int j;//遍历输出
+        boolean lock=false;//若刚输出左括号，对右括号输出上锁，直到再输出一个操作符才能输出右括号，是为了避免出现( 1 ) + 2这种情况
+        if(random.nextInt(2)==2&&left_par!=0)//输出左括号
+        {
+            exercise.append("( ");
+            left_par--;
+        }
+        for(j = 0 ; j < operator.length ; j++){
+            exercise.append(number[j]);
+            exercise.append(" ");
+            if(random.nextInt(2)!=2&&left_par<right_par&&lock==false)//剩余右括号数必须大于左括号数且没有“刚输出一个左括号”时才能输出右括号
+            {
+                exercise.append(") ");
+                right_par--;
+            }
+            exercise.append(operator[j]);
+            exercise.append(' ');
+            lock=false;
+            if(random.nextInt(2)==2&&left_par!=0&&j+1!=operator_num)//剩余左括号不为0且还没有达到式子末尾时可以输出左括号
+            {
+                exercise.append("( ");
+                left_par--;
+                lock=true;
+            }
         }//生成题目字符串
-        return exercise;
+        exercise.append(number[j + 1]);
+        while(right_par>left_par)
+        {
+            exercise.append(" )");
+        }
+        String exercise_str=exercise.toString();
+        return exercise_str;
     }
 }

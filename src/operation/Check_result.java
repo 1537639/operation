@@ -27,7 +27,7 @@ public class Check_result {
 
         String str_e;
         String str_a;
-        while (((str_e = ex_br.readLine ()) != null)&&((str_a=an_br.readLine())!=null)) {
+        while (((str_e = ex_br.readLine ()) != null)&&((str_a=an_br.readLine())!=null)&&i< isCorrect.length) {
             String[] split1=str_e.split(".");
             str_e=split1[1];
             split1=str_a.split(".");
@@ -56,7 +56,7 @@ public class Check_result {
                 output=output+",";
             }
         }
-        output=output+")\nWrong :"+String.valueOf(wrong_num)+" (";
+        output=output+")\r\nWrong :"+String.valueOf(wrong_num)+" (";
         for(int j=0;j<isCorrect.length;j++)
         {
             if(isCorrect[j]==0) {
@@ -67,8 +67,9 @@ public class Check_result {
                 output=output+",";
             }
         }
-        output=output+")\n";
+        output=output+")\r\n";
         gr_os.write(output);
+        gr_os.flush();
         gr_os.close();
         ex_br.close();
         an_br.close();
