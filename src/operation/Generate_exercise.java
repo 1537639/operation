@@ -35,10 +35,10 @@ public class Generate_exercise {
             a= random.nextInt(3);
             switch(a)
             {
-                case 0 :operator[i]='+';
-                case 1 :operator[i]='-';
-                case 2 :operator[i]='*';
-                case 3 :operator[i]='/';
+                case 0 :operator[i]='+';break;
+                case 1 :operator[i]='-';break;
+                case 2 :operator[i]='*';break;
+                case 3 :operator[i]='/';break;
             }
         }
         int e=0;
@@ -50,15 +50,16 @@ public class Generate_exercise {
 
         int j;//遍历输出
         boolean lock=false;//若刚输出左括号，对右括号输出上锁，直到再输出一个操作符才能输出右括号，是为了避免出现( 1 ) + 2这种情况
-        if(random.nextInt(2)==2&&left_par!=0)//输出左括号
+        if(random.nextInt(10)>5&&left_par!=0)//输出左括号
         {
             exercise.append("( ");
             left_par--;
+            lock=true;
         }
-        for(j = 0 ; j < operator.length ; j++){
+        for(j = 0 ; j < operator_num ; j++){
             exercise.append(number[j]);
             exercise.append(" ");
-            if(random.nextInt(2)!=2&&left_par<right_par&&lock==false)//剩余右括号数必须大于左括号数且没有“刚输出一个左括号”时才能输出右括号
+            if(random.nextInt(10)<=5&&left_par<right_par&&lock==false)//剩余右括号数必须大于左括号数且没有“刚输出一个左括号”时才能输出右括号
             {
                 exercise.append(") ");
                 right_par--;
@@ -66,17 +67,18 @@ public class Generate_exercise {
             exercise.append(operator[j]);
             exercise.append(' ');
             lock=false;
-            if(random.nextInt(2)==2&&left_par!=0&&j+1!=operator_num)//剩余左括号不为0且还没有达到式子末尾时可以输出左括号
+            if(random.nextInt(10)>5&&left_par!=0&&j+1!=operator_num)//剩余左括号不为0且还没有达到式子末尾时可以输出左括号
             {
                 exercise.append("( ");
                 left_par--;
                 lock=true;
             }
         }//生成题目字符串
-        exercise.append(number[j + 1]);
+        exercise.append(number[j]);
         while(right_par>left_par)
         {
             exercise.append(" )");
+            right_par--;
         }
         String exercise_str=exercise.toString();
         return exercise_str;

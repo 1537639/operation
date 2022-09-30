@@ -6,10 +6,8 @@ public class Check_result {
     File exercise;
     File answer;
     File grade;
-    Answer_result a_s;
-    public Check_result(Answer_result answerResult)//构造函数
+    public Check_result()//构造函数
     {
-        a_s=answerResult;//传入回答问题类，调用回答问题函数来判断答案是否正确
         exercise=new File("src\\resourse\\exercise.txt");//题目文件
         answer=new File("src\\resourse\\answer.txt");//答案文件
         grade=new File("src\\resourse\\grade.txt");//分数文件
@@ -33,7 +31,7 @@ public class Check_result {
             split1=str_a.split(".");
             str_a=split1[1];
 
-            if(a_s.answer(str_e).equals(str_a))
+            if(Answer_result.answer(str_e).equals(str_a))
             {
                 grade_num++;
                 isCorrect[i-1]=1;

@@ -1,6 +1,8 @@
 package operation;
 
 
+import java.util.List;
+
 public class Operate {
     public static Num plus(Num num_1, Num num_2)//加法函数
     {
@@ -88,10 +90,12 @@ public class Operate {
         number.denomin/=b;
     }
 
-    public static String fraction(Num number)//输出一个分数
+    public static String fraction(Num number)//输出一个分数字符串
     {
         if(number.denomin==1)
         {
+            if(number.numer<0)
+                return null;
             return String.valueOf(number.numer);
         }
         else if(number.denomin< number.numer)
@@ -100,6 +104,8 @@ public class Operate {
             int frac_numer;
             interger=number.numer/number.denomin;
             frac_numer=number.numer%number.denomin;
+            if(interger<0||frac_numer<0)
+                return null;
             return (interger +"'"+ frac_numer +"/"+ number.denomin);
         }
         else{
@@ -107,13 +113,31 @@ public class Operate {
         }
     }
 
-    public static boolean IsRepeat(String[] exercises,String exercise)//是否重复
+    public static boolean IsRepeat(List<String> exercises, TreeNode tree)//列表里的表达式是否与新的表达式是否重复
     {
-        for(int i=0;i< exercises.length;i++)
+        String exercise=Answer_result.toPostifixExp(tree);
+        exercise=Answer_result.getDupExpression(exercise);
+        for(int i=0;i< exercises.size();i++)
         {
-            if(exercise.equals(exercises[i]))
+            if(dupCheck(exercises.get(i),exercise))
                 return true;
         }
         return false;
+    }
+    public static boolean dupCheck(String str1,String str2) {//对比两个查重表达式是否重复
+        String[] s1=str1.split(" ");//将字符串s1转化成字符数组
+        String[] s2=str1.split(" ");//将字符串s2转化成字符数组
+        if(s1.equals(s2))
+            return true;//若两列表内容相同返回true
+        for(int j = 0; j < s2.length-1; j++) {//若不同进行循环将+或×后的两个字符串交换看能否相同
+            if(s2[j].equals("+")||s2[j].equals("×")) {
+                String temp= s2[j+1];
+                s2[j+1]=s2[j+2];
+                s2[j+2]=temp;
+            }
+            j*=3;
+            if(s1.equals(s2))
+                return true;//若交换后相同则返回true
+        }return false;
     }
 }

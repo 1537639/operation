@@ -1,5 +1,0 @@
-package operation;
-
-class Node {
-
-}

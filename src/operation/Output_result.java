@@ -19,8 +19,8 @@ public class Output_result {
     {
         BufferedWriter ex_os=new BufferedWriter(new FileWriter(exercise,true));
         BufferedWriter an_os=new BufferedWriter(new FileWriter(answer,true));
-        exercise_=String.valueOf(num)+"."+exercise_+" =";
-        answer_=String.valueOf(num)+"."+answer_;
+        exercise_= num +"."+exercise_+" =\r\n";
+        answer_= num +"."+answer_+"\r\n";
 
         ex_os.write(exercise_);
         an_os.write(answer_);
