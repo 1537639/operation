@@ -25,7 +25,8 @@ public class Mainclass {
         for(int i=1;i<=exercise_num;i++)
         {
             exercise=g_e.generate(limit_num);
-            tree=new TreeNode(exercise);
+            String[] exc=TreeNode.toStringArrayTrimOutParrenthes(exercise);
+            tree=new TreeNode(exc);
             Num resultNum=tree.calculate();
             Operate.simplify(resultNum);
             answer=Operate.fraction(resultNum);

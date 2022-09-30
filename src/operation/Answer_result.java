@@ -20,7 +20,8 @@ public class Answer_result{
     public static String answer(String exp) {//传入题目，解出答案
         // TODO Auto-generated method stub
         //生成resultNum答案
-        Num resultNum=new TreeNode(exp).calculate();
+        String[] exc=TreeNode.toStringArrayTrimOutParrenthes(exp);
+        Num resultNum=new TreeNode(exc).calculate();
         Operate.simplify(resultNum);
         return Operate.fraction(resultNum);
     }

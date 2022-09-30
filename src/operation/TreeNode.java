@@ -14,9 +14,9 @@ public class TreeNode{
 			this.value=value;
 		}
 		*/
-        public TreeNode(String expression)
+        public TreeNode(String[] exc)
         {
-            String[] exc=toStringArrayTrimOutParrenthes(expression);
+            exc=TreeNode.toStringArrayTrimOutParrenthes(exc);
             if (exc == null) {
                 return;
             }
@@ -47,23 +47,23 @@ public class TreeNode{
                     isSymbol=true;
                 }
 
-                StringBuilder sbleft = new StringBuilder();
-                StringBuilder sbright = new StringBuilder();
+                String[] sbleft = new String[index];
+                String[] sbright = new String[length-index-1];
 
                 for (int i = 0; i < index; i++) {
-                    sbleft.append(exc[i]);
+                    sbleft[i]=exc[i];
                 }
                 for (int i = index + 1; i < length; i++) {
-                    sbright.append(exc[i]);
+                    sbright[i-index-1] = exc[i];
                 }
-                left = new TreeNode(sbleft.toString());
-                right = new TreeNode(sbright.toString());
+                left = new TreeNode(sbleft);
+                right = new TreeNode(sbright);
             }else {
-                StringBuilder value = new StringBuilder();
-                value.append(exc);
+               // StringBuilder value = new StringBuilder();
+                //value.append(exc);
                 // String builder value to Num data
-                String valueString= (value.toString());
-                int data2=Integer.parseInt(valueString);
+              //  String valueString= (value.toString());
+                int data2=Integer.parseInt(exc[0]);
                 data=new Num(data2,1);
                 isSymbol=false;
             }
@@ -85,8 +85,8 @@ public class TreeNode{
 
         }
         //去除运算式的最外层括号
-        public String[] toStringArrayTrimOutParrenthes(String s) {
-            String[] a=s.split(" ");
+        public static String[] toStringArrayTrimOutParrenthes(String s) {
+            String[] a=s.split("\\s+");
             int length=a.length;
             String[] b;
             int i;
@@ -107,6 +107,28 @@ public class TreeNode{
 
             return b;
         }
+
+    public static String[] toStringArrayTrimOutParrenthes(String[] a) {
+        int length=a.length;
+        String[] b;
+        int i;
+
+        if(a[0].equals("(")&&a[length-1].equals(")"))
+        {
+            b=new String[length-2];
+            for(i=1;i<length-1;i++)
+            {
+
+                b[i-1]=a[i];
+            }
+        }
+        else {
+            b=new String[length];
+            b=a;
+        }
+
+        return b;
+    }
         //对应运算符进行计算
         public Num calculate() {
             Num result=new Num(0,0);
