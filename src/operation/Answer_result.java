@@ -28,20 +28,21 @@ public class Answer_result{
 
     public static String toPostifixExp(TreeNode node)//转化为后缀表达式
     {
-        String s=new String("");
+        String s=new String();
         if(node==null) return null;
         if(node.left!=null)
         s=s + " " + toPostifixExp(node.left);
         if(node.right!=null)
         s=s + " " + toPostifixExp(node.right);
         if(node.isSymbol)
-            return String.valueOf(node.symbol);
+            return s+" "+node.symbol;
         else
             return Operate.fraction(node.data);
     }
 
     public static String getDupExpression(String postfix)//后缀表达式转化为查重表达式
     {
+        postfix=postfix.substring(2);
         String dup=new String();
         String[] s=postfix.split(" ");
         Pattern p = Pattern.compile("^-?\\d+$");
@@ -51,7 +52,6 @@ public class Answer_result{
             if(p.matcher(s[i]).matches())//如果是数字
             {
                 stack.push(s[i]);
-                dup=dup+" ";
             }
             else//如果是符号
             {
