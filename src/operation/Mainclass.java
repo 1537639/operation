@@ -18,7 +18,7 @@ public class Mainclass {
 
 
         //输入生成题目个数n
-        
+
         //输入界定生成数范围
 
         //进行n次以下操作
