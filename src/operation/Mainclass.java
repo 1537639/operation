@@ -1,5 +1,6 @@
 package operation;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -10,7 +11,7 @@ public class Mainclass {
         Output_result o_r=new Output_result();//输出结果到exercise.txt和answer.txt类
         Check_result c_r=new Check_result();//检查答案并输出到grade.txt类
         TreeNode tree;//公式树
-        int exercise_num=10;//生成题目个数
+        int exercise_num=100;//生成题目个数
         int limit_num=20;//界定生成数范围
         String exercise;//一个题目
         List<String> exercises=new ArrayList<>();//题目查重列表
@@ -22,13 +23,21 @@ public class Mainclass {
         //输入界定生成数范围
 
         //进行n次以下操作
-        for(int i=1;i<=exercise_num;i++)
+        o_r.clearInfoForFile("src\\resourse\\exercise.txt");
+        o_r.clearInfoForFile("src\\resourse\\answer.txt");
+        for(int i=1;i<=10;i++)
         {
             exercise=g_e.generate(limit_num);
+            //exercise="( 17 - 14 ) / ( 18 * 19 ) ";
             String[] exc=TreeNode.toStringArrayTrimOutParrenthes(exercise);
             tree=new TreeNode(exc);
             Num resultNum=tree.calculate();
             Operate.simplify(resultNum);
+            if(resultNum.numer/ resultNum.denomin>1000)//生成的答案如超过1000，则丢弃
+            {
+                i--;
+                continue;
+            }
             answer=Operate.fraction(resultNum);
             if(answer==null)//如果返回空值，说明答案是负数
             {
@@ -36,7 +45,7 @@ public class Mainclass {
                 continue;//扔掉该回答
             }
 
-            if(Operate.IsRepeat(exercises,tree))//如果重复
+            if(Answer_result.IsRepeat(exercises,tree))//如果重复
             {
                 i--;
                 continue;//扔掉该回答
@@ -51,6 +60,6 @@ public class Mainclass {
         }
 
         //判断答案是否正确，输出分数到grade.txt
-
+        c_r.check();
     }
 }

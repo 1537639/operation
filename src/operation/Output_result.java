@@ -19,8 +19,8 @@ public class Output_result {
     {
         BufferedWriter ex_os=new BufferedWriter(new FileWriter(exercise,true));
         BufferedWriter an_os=new BufferedWriter(new FileWriter(answer,true));
-        exercise_= num +"."+exercise_+" =\r\n";
-        answer_= num +"."+answer_+"\r\n";
+        exercise_= num +","+exercise_+" =\r\n";
+        answer_= num +","+answer_+"\r\n";
 
         ex_os.write(exercise_);
         an_os.write(answer_);
@@ -29,5 +29,20 @@ public class Output_result {
         ex_os.close();
         an_os.close();
 
+    }
+
+    public  void clearInfoForFile(String path) {
+        File file = new File(path);
+        try {
+            if(!file.exists()) {
+                file.createNewFile();
+            }
+            FileWriter fileWriter =new FileWriter(file);
+            fileWriter.write("");  //写入空
+            fileWriter.flush();
+            fileWriter.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

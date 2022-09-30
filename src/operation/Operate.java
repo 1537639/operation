@@ -37,6 +37,7 @@ public class Operate {
     {
         int denomin;
         int numer;
+
         if (num_1.denomin==num_2.denomin)
         {
             numer=num_1.numer-num_2.numer;
@@ -71,6 +72,11 @@ public class Operate {
     public static Num divide(Num num_1, Num num_2)//除法函数
     {
         Num number=new Num(num_1.numer* num_2.denomin,num_1.denomin* num_2.numer);
+        if(number.denomin==0)
+        {
+            number.numer=1000000;
+            number.denomin=1;
+        }
         simplify(number);
         return(number);
     }
@@ -79,6 +85,12 @@ public class Operate {
     {
         int a=number.denomin;
         int b=number.numer;
+        if(b==0)
+        {
+            number.numer=0;
+            number.denomin=1;
+            return;
+        }
         int c=a%b;
         while(c!=0)
         {
@@ -113,31 +125,5 @@ public class Operate {
         }
     }
 
-    public static boolean IsRepeat(List<String> exercises, TreeNode tree)//列表里的表达式是否与新的表达式是否重复
-    {
-        String exercise=Answer_result.toPostifixExp(tree);
-        exercise=Answer_result.getDupExpression(exercise);
-        for(int i=0;i< exercises.size();i++)
-        {
-            if(dupCheck(exercises.get(i),exercise))
-                return true;
-        }
-        return false;
-    }
-    public static boolean dupCheck(String str1,String str2) {//对比两个查重表达式是否重复
-        String[] s1=str1.split(" ");//将字符串s1转化成字符数组
-        String[] s2=str1.split(" ");//将字符串s2转化成字符数组
-        if(s1.equals(s2))
-            return true;//若两列表内容相同返回true
-        for(int j = 0; j < s2.length-1; j++) {//若不同进行循环将+或×后的两个字符串交换看能否相同
-            if(s2[j].equals("+")||s2[j].equals("×")) {
-                String temp= s2[j+1];
-                s2[j+1]=s2[j+2];
-                s2[j+2]=temp;
-            }
-            j*=3;
-            if(s1.equals(s2))
-                return true;//若交换后相同则返回true
-        }return false;
-    }
+
 }

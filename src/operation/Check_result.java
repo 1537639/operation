@@ -1,6 +1,8 @@
 package operation;
 
 import java.io.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Check_result {
     File exercise;
@@ -17,52 +19,53 @@ public class Check_result {
     {
         int grade_num=0;
         int wrong_num=0;
-        int[] isCorrect =new int[10000];
-        int i=1;
+        List isCorrect=new ArrayList();
+        //int[] isCorrect =new int[10000];
+
         BufferedReader ex_br = new BufferedReader(new InputStreamReader(new FileInputStream(exercise)));
         BufferedReader an_br = new BufferedReader(new InputStreamReader(new FileInputStream(answer)));
         BufferedWriter gr_os=new BufferedWriter(new FileWriter(grade));
 
         String str_e;
         String str_a;
-        while (((str_e = ex_br.readLine ()) != null)&&((str_a=an_br.readLine())!=null)&&i< isCorrect.length) {
-            String[] split1=str_e.split(".");
+        while (((str_e = ex_br.readLine ()) != null)&&((str_a=an_br.readLine())!=null)) {
+            String[] split1=str_e.split(",");
             str_e=split1[1];
-            split1=str_a.split(".");
+            str_e=str_e.substring(0,str_e.length()-2);
+            split1=str_a.split(",");
             str_a=split1[1];
 
             if(Answer_result.answer(str_e).equals(str_a))
             {
                 grade_num++;
-                isCorrect[i-1]=1;
+                isCorrect.add(1);
             }else
             {
                 wrong_num++;
-                isCorrect[i-1]=0;
+                isCorrect.add(0);
             }
-            i++;
         }
 
         String output="Correct: "+String.valueOf(grade_num)+" (";
-        for(int j=0;j<isCorrect.length;j++)
+        for(int j=0;j<isCorrect.size();j++)
         {
-            if(isCorrect[j]==1) {
-                output = output + String.valueOf(j + 1);
+            if(isCorrect.get(j).equals(1)) {
+                output = output + String.valueOf(j + 1)+",";
             }
-            if(j+1!=isCorrect.length)
+            if(j+1==isCorrect.size()&&isCorrect.get(j).equals(1))
             {
-                output=output+",";
+                output = output + String.valueOf(j + 1);
             }
         }
         output=output+")\r\nWrong :"+String.valueOf(wrong_num)+" (";
-        for(int j=0;j<isCorrect.length;j++)
+        for(int j=0;j<isCorrect.size();j++)
         {
-            if(isCorrect[j]==0) {
-                output = output + String.valueOf(j + 1);
+            if(isCorrect.get(j).equals(0)) {
+                output = output + String.valueOf(j + 1)+",";
             }
-            if(j+1!=isCorrect.length)
+            if(j+1==isCorrect.size()&&isCorrect.get(j).equals(0))
             {
-                output=output+",";
+                output = output + String.valueOf(j + 1);
             }
         }
         output=output+")\r\n";

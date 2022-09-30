@@ -12,14 +12,8 @@ public class Generate_exercise {
         int left_par=0;//左括号数
         int right_par=0;//右括号数
         StringBuilder exercise=new StringBuilder();//构造题目字符串
-        while(operator_num==0)
-        {
-            operator_num=random.nextInt(3);//随机生成一个操作符数
-        }
-        while(left_par==0)
-        {
-            left_par=random.nextInt(operator_num);
-        }
+        operator_num=random.nextInt(3)+1;//随机生成一个操作符数
+        left_par=random.nextInt(operator_num+1);
         right_par=left_par;
 
         int i;
@@ -32,20 +26,19 @@ public class Generate_exercise {
             number[i]=e;
 
             int a;
-            a= random.nextInt(3);
+            a= random.nextInt(4);
+            //a=3;
             switch(a)
             {
                 case 0 :operator[i]='+';break;
                 case 1 :operator[i]='-';break;
                 case 2 :operator[i]='*';break;
                 case 3 :operator[i]='/';break;
+               // case 4 :operator[i]='/';break;
             }
         }
         int e=0;
-        while(e==0)
-        {
-            e= random.nextInt(num);
-        }
+        e= random.nextInt(num+1);
         number[i]=e;
 
         int j;//遍历输出

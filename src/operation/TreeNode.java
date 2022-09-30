@@ -16,6 +16,7 @@ public class TreeNode{
 		*/
         public TreeNode(String[] exc)
         {
+
             exc=TreeNode.toStringArrayTrimOutParrenthes(exc);
             if (exc == null) {
                 return;
@@ -25,6 +26,7 @@ public class TreeNode{
             //int length=exc.length;
             int index = 0;
             if (hasOperation(exc)) {
+                boolean lock=false;
                 int parenthes = 0;
                 for (int i = length - 1; i >= 0; i--) {
                     if (exc[i].equals("(")) {
@@ -35,8 +37,10 @@ public class TreeNode{
                     if (parenthes > 0) {
                         continue;
                     }
-                    if (exc[i].equals("*") || exc[i].equals("/")) {
+                    if (exc[i].equals("*") || exc[i].equals("/")&&lock==false) {
                         index = i;
+                        if(exc[i].equals("/")&&lock==false)
+                            lock=true;
                     } else if (exc[i].equals("+") || exc[i].equals("-")) {
                         index = i;
                         break;
@@ -91,14 +95,32 @@ public class TreeNode{
             String[] b;
             int i;
 
+
             if(a[0].equals("(")&&a[length-1].equals(")"))
             {
-                b=new String[length-2];
-                for(i=1;i<length-1;i++)
+                int par=0;
+                for(i=0;i<length;i++)
                 {
+                    if(a[i].equals("("))
+                        par++;
+                    else if(a[i].equals(")"))
+                        par--;
 
-                    b[i-1]=a[i];
+                    if(par==0)
+                        break;
                 }
+                if(i!=length-1)
+                {
+                    b=new String[length];
+                    b=a;
+                    return b;
+                }
+                    b = new String[length - 2];
+                    for (i = 1; i < length - 1; i++) {
+
+                        b[i - 1] = a[i];
+                    }
+
             }
             else {
                 b=new String[length];
@@ -115,6 +137,23 @@ public class TreeNode{
 
         if(a[0].equals("(")&&a[length-1].equals(")"))
         {
+            int par=0;
+            for(i=0;i<length;i++)
+            {
+                if(a[i].equals("("))
+                    par++;
+                else if(a[i].equals(")"))
+                    par--;
+
+                if(par==0)
+                    break;
+            }
+            if(i!=length-1)
+            {
+                b=new String[length];
+                b=a;
+                return b;
+            }
             b=new String[length-2];
             for(i=1;i<length-1;i++)
             {
@@ -131,7 +170,7 @@ public class TreeNode{
     }
         //对应运算符进行计算
         public Num calculate() {
-            Num result=new Num(0,0);
+            Num result;
             if (left == null && right == null) {
                 result = data;
             } else {
