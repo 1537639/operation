@@ -9,25 +9,32 @@ public class Output_result {
     File exercise;
     File answer;
 
-    public Output_result()
+    public Output_result(String exercise_path,String answer_path)
     {
-        exercise=new File("src\\resourse\\exercise.txt");//题目文件
-        answer=new File("src\\resourse\\answer.txt");//答案文件
+        exercise=new File(exercise_path);//题目文件
+        answer=new File(answer_path);//答案文件
     }
 
     public void output(String exercise_,String answer_,int num) throws IOException//输出题目文件和答案文件，每调用一次在txt后追加一条式子和一条答案
     {
-        BufferedWriter ex_os=new BufferedWriter(new FileWriter(exercise,true));
-        BufferedWriter an_os=new BufferedWriter(new FileWriter(answer,true));
-        exercise_= num +","+exercise_+" =\r\n";
-        answer_= num +","+answer_+"\r\n";
+        try {
+            BufferedWriter ex_os = new BufferedWriter(new FileWriter(exercise, true));
+            BufferedWriter an_os = new BufferedWriter(new FileWriter(answer, true));
+            exercise_ = num + "," + exercise_ + " =\r\n";
+            answer_ = num + "," + answer_ + "\r\n";
 
-        ex_os.write(exercise_);
-        an_os.write(answer_);
-        ex_os.flush();
-        an_os.flush();
-        ex_os.close();
-        an_os.close();
+            ex_os.write(exercise_);
+            an_os.write(answer_);
+            ex_os.flush();
+            an_os.flush();
+            ex_os.close();
+            an_os.close();
+        }
+        catch (IOException e)
+        {
+            System.out.println("路径不存在");
+            return;
+        }
 
     }
 
@@ -42,7 +49,7 @@ public class Output_result {
             fileWriter.flush();
             fileWriter.close();
         } catch (IOException e) {
-            e.printStackTrace();
+            System.out.println("路径不存在");
         }
     }
 }

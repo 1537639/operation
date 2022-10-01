@@ -8,10 +8,10 @@ public class Check_result {
     File exercise;
     File answer;
     File grade;
-    public Check_result()//构造函数
+    public Check_result(String exercise_path,String answer_path)//构造函数
     {
-        exercise=new File("src\\resourse\\exercise.txt");//题目文件
-        answer=new File("src\\resourse\\answer.txt");//答案文件
+        exercise=new File(exercise_path);//题目文件
+        answer=new File(answer_path);//答案文件
         grade=new File("src\\resourse\\grade.txt");//分数文件
     }
 
@@ -20,11 +20,20 @@ public class Check_result {
         int grade_num=0;
         int wrong_num=0;
         List isCorrect=new ArrayList();
+        BufferedReader ex_br;
+        BufferedReader an_br;
+        BufferedWriter gr_os;
         //int[] isCorrect =new int[10000];
-
-        BufferedReader ex_br = new BufferedReader(new InputStreamReader(new FileInputStream(exercise)));
-        BufferedReader an_br = new BufferedReader(new InputStreamReader(new FileInputStream(answer)));
-        BufferedWriter gr_os=new BufferedWriter(new FileWriter(grade));
+        try {
+             ex_br = new BufferedReader(new InputStreamReader(new FileInputStream(exercise)));
+             an_br = new BufferedReader(new InputStreamReader(new FileInputStream(answer)));
+             gr_os = new BufferedWriter(new FileWriter(grade));
+        }
+        catch (IOException e)
+        {
+            System.out.println("文件不存在");
+            return;
+        }
 
         String str_e;
         String str_a;
@@ -46,18 +55,28 @@ public class Check_result {
             }
         }
 
-        String output="Correct: "+String.valueOf(grade_num)+" (";
+        String output="Correct: "+grade_num+" (";
         for(int j=0;j<isCorrect.size();j++)
         {
             if(isCorrect.get(j).equals(1)) {
+                System.out.println("第"+j+"道题是正确的");
                 output = output + String.valueOf(j + 1)+",";
+            }
+            else if(isCorrect.get(j).equals(0))
+            {
+                System.out.println("第"+j+"道题是错误的");
             }
             if(j+1==isCorrect.size()&&isCorrect.get(j).equals(1))
             {
+                System.out.println("第"+(j+1)+"道题是正确的");
                 output = output + String.valueOf(j + 1);
             }
+            else if(j+1==isCorrect.size()&&isCorrect.get(j).equals(0))
+            {
+                System.out.println("第"+(j+1)+"道题是错误的");
+            }
         }
-        output=output+")\r\nWrong :"+String.valueOf(wrong_num)+" (";
+        output=output+")\r\nWrong :"+wrong_num+" (";
         for(int j=0;j<isCorrect.size();j++)
         {
             if(isCorrect.get(j).equals(0)) {
@@ -68,6 +87,7 @@ public class Check_result {
                 output = output + String.valueOf(j + 1);
             }
         }
+        System.out.println("正确答案个数："+grade_num+"\r\n错误答案个数："+wrong_num);
         output=output+")\r\n";
         gr_os.write(output);
         gr_os.flush();

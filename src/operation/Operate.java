@@ -106,8 +106,6 @@ public class Operate {
     {
         if(number.denomin==1)
         {
-            if(number.numer<0)
-                return null;
             return String.valueOf(number.numer);
         }
         else if(number.denomin< number.numer)
