@@ -41,24 +41,24 @@ public class Answer_result{
             return Operate.fraction(node.data)+" ";
     }
 
-    public static String getDupExpression(String postfix)//后缀表达式转化为查重表达式
+        public static String getDupExpression(String postfix)//后缀表达式转化为查重表达式
     {
-        String dup=new String();
-        String[] s=postfix.split(" ");
-        Pattern p = Pattern.compile("^-?\\d+$");
-        Stack stack = new Stack();
-        for(int i=0;i<s.length;i++)
+        String dup=new String();//
+        String[] s=postfix.split(" ");//以空格分割后缀表达式并返回字符数组
+        Pattern p = Pattern.compile("^-?\\d+$");//定的正则表达式编译为模式
+        Stack stack = new Stack();//新建存储栈
+        for(int i=0;i<s.length;i++)//字符从左到右遍历
         {
             if(p.matcher(s[i]).matches())//如果是数字
             {
-                stack.push(s[i]);
+                stack.push(s[i]);//出栈
             }
             else//如果是符号
             {
                 String result= "#",num1,num2;
                 dup=dup+s[i];
-                dup=dup+" ";
-                num1=stack.pop().toString();
+                dup=dup+" ";//空格用于后续分割
+                num1=stack.pop().toString();//入栈
                 num2=stack.pop().toString();
 
                 if(num1 != "#") {
